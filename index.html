@@ -34,8 +34,10 @@
       border-radius: 20px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
       z-index: 1000;
-      max-width: 600px;
+      max-width: 900px;
       width: 95%;
+      max-height: 95vh;
+      overflow-y: auto;
     }
 
     #avatarEditor h2 {
@@ -422,7 +424,7 @@
   <!-- 角色编辑器 -->
   <div id="avatarEditor">
     <h2>🎨 创建你的2D角色</h2>
-    <p class="editor-subtitle">拖拽图元自由编辑 | Shift+拖拽缩放 | Ctrl+拖拽旋转 | Delete删除</p>
+    <p class="editor-subtitle">拖拽图元移动 | 拖拽控制点调整大小/旋转 | Delete删除</p>
     
     <div class="primitive-list">
       <button class="primitive-btn" data-type="circle">● 圆形</button>
@@ -440,7 +442,7 @@
       </div>
       <div class="control-group">
         <label>大小 (px)</label>
-        <input type="number" id="partSize" min="10" max="80" step="5" value="30">
+        <input type="number" id="partSize" min="10" max="150" step="5" value="30">
       </div>
       <div class="control-group">
         <label>旋转 (度)</label>
