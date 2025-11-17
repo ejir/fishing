@@ -35,86 +35,97 @@ export class AvatarEditor {
   
   private presets: PresetAvatar[] = [
     {
-      name: '波奇酱',
-      description: '孤独摇滚 - 后藤一里',
+      name: '彩虹球',
+      description: '多彩圆形',
       parts: [
-        { type: 'circle', color: '#ffc0cb', size: 60, position: { x: 0, y: -20 }, rotation: 0 }, // 头
-        { type: 'rect', color: '#ff69b4', size: 40, position: { x: -15, y: -30 }, rotation: 0.3 }, // 左发
-        { type: 'rect', color: '#ff69b4', size: 40, position: { x: 15, y: -30 }, rotation: -0.3 }, // 右发
-        { type: 'circle', color: '#000000', size: 8, position: { x: -12, y: -22 }, rotation: 0 }, // 左眼
-        { type: 'circle', color: '#000000', size: 8, position: { x: 12, y: -22 }, rotation: 0 }, // 右眼
-        { type: 'ellipse', color: '#ff0000', size: 16, position: { x: 0, y: -12 }, rotation: 0 }, // 嘴
-        { type: 'rect', color: '#ffb6c1', size: 45, position: { x: 0, y: 15 }, rotation: 0 }, // 身体
-        { type: 'rect', color: '#ffb6c1', size: 30, position: { x: -20, y: 20 }, rotation: 0.2 }, // 左臂
-        { type: 'rect', color: '#ffb6c1', size: 30, position: { x: 20, y: 20 }, rotation: -0.2 }, // 右臂
+        { type: 'circle', color: '#ff6b6b', size: 70, position: { x: 0, y: 0 }, rotation: 0 },
+        { type: 'circle', color: '#4ecdc4', size: 45, position: { x: 0, y: 0 }, rotation: 0 },
+        { type: 'circle', color: '#ffe66d', size: 25, position: { x: 0, y: 0 }, rotation: 0 },
+        { type: 'circle', color: '#000000', size: 8, position: { x: -15, y: -8 }, rotation: 0 },
+        { type: 'circle', color: '#000000', size: 8, position: { x: 15, y: -8 }, rotation: 0 },
       ]
     },
     {
-      name: '虹夏',
-      description: '孤独摇滚 - 伊地知虹夏',
+      name: '方块怪',
+      description: '几何方块',
       parts: [
-        { type: 'circle', color: '#ffe4b5', size: 60, position: { x: 0, y: -20 }, rotation: 0 }, // 头
-        { type: 'rect', color: '#ff0000', size: 45, position: { x: -18, y: -25 }, rotation: 0.2 }, // 左发
-        { type: 'rect', color: '#ff0000', size: 45, position: { x: 18, y: -25 }, rotation: -0.2 }, // 右发
-        { type: 'circle', color: '#8b4513', size: 10, position: { x: -12, y: -22 }, rotation: 0 }, // 左眼
-        { type: 'circle', color: '#8b4513', size: 10, position: { x: 12, y: -22 }, rotation: 0 }, // 右眼
-        { type: 'ellipse', color: '#ff6347', size: 18, position: { x: 0, y: -10 }, rotation: 0 }, // 嘴
-        { type: 'rect', color: '#ffd700', size: 45, position: { x: 0, y: 15 }, rotation: 0 }, // 身体
-        { type: 'rect', color: '#f0e68c', size: 30, position: { x: -22, y: 18 }, rotation: 0.3 }, // 左臂
-        { type: 'rect', color: '#f0e68c', size: 30, position: { x: 22, y: 18 }, rotation: -0.3 }, // 右臂
+        { type: 'rect', color: '#667eea', size: 60, position: { x: 0, y: 0 }, rotation: 0 },
+        { type: 'rect', color: '#764ba2', size: 35, position: { x: 0, y: 0 }, rotation: 0.785 },
+        { type: 'circle', color: '#ffffff', size: 12, position: { x: -12, y: -8 }, rotation: 0 },
+        { type: 'circle', color: '#ffffff', size: 12, position: { x: 12, y: -8 }, rotation: 0 },
+        { type: 'circle', color: '#000000', size: 6, position: { x: -12, y: -8 }, rotation: 0 },
+        { type: 'circle', color: '#000000', size: 6, position: { x: 12, y: -8 }, rotation: 0 },
       ]
     },
     {
-      name: '凉',
-      description: '孤独摇滚 - 山田凉',
+      name: '三角星',
+      description: '星形图案',
       parts: [
-        { type: 'circle', color: '#ffe4c4', size: 60, position: { x: 0, y: -20 }, rotation: 0 }, // 头
-        { type: 'rect', color: '#4169e1', size: 50, position: { x: -20, y: -28 }, rotation: 0.1 }, // 左发
-        { type: 'rect', color: '#4169e1', size: 50, position: { x: 20, y: -28 }, rotation: -0.1 }, // 右发
-        { type: 'circle', color: '#000080', size: 9, position: { x: -12, y: -20 }, rotation: 0 }, // 左眼
-        { type: 'circle', color: '#000080', size: 9, position: { x: 12, y: -20 }, rotation: 0 }, // 右眼
-        { type: 'ellipse', color: '#dc143c', size: 16, position: { x: 0, y: -12 }, rotation: 0 }, // 嘴
-        { type: 'rect', color: '#000000', size: 45, position: { x: 0, y: 15 }, rotation: 0 }, // 身体
-        { type: 'rect', color: '#2f4f4f', size: 28, position: { x: -22, y: 20 }, rotation: 0.25 }, // 左臂
-        { type: 'rect', color: '#2f4f4f', size: 28, position: { x: 22, y: 20 }, rotation: -0.25 }, // 右臂
+        { type: 'triangle', color: '#ffd700', size: 75, position: { x: 0, y: 5 }, rotation: 0 },
+        { type: 'triangle', color: '#ffed4e', size: 75, position: { x: 0, y: -5 }, rotation: 3.14159 },
+        { type: 'circle', color: '#ff6b6b', size: 30, position: { x: 0, y: 0 }, rotation: 0 },
+        { type: 'circle', color: '#000000', size: 8, position: { x: -10, y: -5 }, rotation: 0 },
+        { type: 'circle', color: '#000000', size: 8, position: { x: 10, y: -5 }, rotation: 0 },
       ]
     },
     {
-      name: '喜多',
-      description: '孤独摇滚 - 喜多郁代',
+      name: '椭圆虫',
+      description: '可爱椭圆',
       parts: [
-        { type: 'circle', color: '#fff5ee', size: 60, position: { x: 0, y: -20 }, rotation: 0 }, // 头
-        { type: 'ellipse', color: '#ff1493', size: 50, position: { x: -20, y: -30 }, rotation: 0.4 }, // 左发
-        { type: 'ellipse', color: '#ff1493', size: 50, position: { x: 20, y: -30 }, rotation: -0.4 }, // 右发
-        { type: 'circle', color: '#ff69b4', size: 10, position: { x: -12, y: -22 }, rotation: 0 }, // 左眼
-        { type: 'circle', color: '#ff69b4', size: 10, position: { x: 12, y: -22 }, rotation: 0 }, // 右眼
-        { type: 'ellipse', color: '#ff1493', size: 18, position: { x: 0, y: -10 }, rotation: 0 }, // 嘴
-        { type: 'rect', color: '#ffb6e1', size: 45, position: { x: 0, y: 15 }, rotation: 0 }, // 身体
-        { type: 'rect', color: '#ffc0e0', size: 30, position: { x: -22, y: 18 }, rotation: 0.2 }, // 左臂
-        { type: 'rect', color: '#ffc0e0', size: 30, position: { x: 22, y: 18 }, rotation: -0.2 }, // 右臂
+        { type: 'ellipse', color: '#95e1d3', size: 90, position: { x: 0, y: 0 }, rotation: 0 },
+        { type: 'ellipse', color: '#f38181', size: 35, position: { x: -20, y: -10 }, rotation: 0.5 },
+        { type: 'ellipse', color: '#f38181', size: 35, position: { x: 20, y: -10 }, rotation: -0.5 },
+        { type: 'circle', color: '#000000', size: 10, position: { x: -15, y: 5 }, rotation: 0 },
+        { type: 'circle', color: '#000000', size: 10, position: { x: 15, y: 5 }, rotation: 0 },
+        { type: 'ellipse', color: '#ffffff', size: 20, position: { x: 0, y: 25 }, rotation: 0 },
       ]
     },
     {
-      name: '经典笑脸',
-      description: '简单的笑脸角色',
+      name: '笑脸',
+      description: '经典笑脸',
       parts: [
-        { type: 'circle', color: '#ffff00', size: 80, position: { x: 0, y: 0 }, rotation: 0 }, // 脸
-        { type: 'circle', color: '#000000', size: 12, position: { x: -18, y: -10 }, rotation: 0 }, // 左眼
-        { type: 'circle', color: '#000000', size: 12, position: { x: 18, y: -10 }, rotation: 0 }, // 右眼
-        { type: 'ellipse', color: '#ff0000', size: 30, position: { x: 0, y: 10 }, rotation: 0 }, // 笑嘴
+        { type: 'circle', color: '#ffe66d', size: 80, position: { x: 0, y: 0 }, rotation: 0 },
+        { type: 'circle', color: '#000000', size: 10, position: { x: -18, y: -12 }, rotation: 0 },
+        { type: 'circle', color: '#000000', size: 10, position: { x: 18, y: -12 }, rotation: 0 },
+        { type: 'ellipse', color: '#000000', size: 35, position: { x: 0, y: 15 }, rotation: 0 },
+        { type: 'ellipse', color: '#ffe66d', size: 30, position: { x: 0, y: 10 }, rotation: 0 },
       ]
     },
     {
       name: '机器人',
       description: '方块机器人',
       parts: [
-        { type: 'rect', color: '#c0c0c0', size: 50, position: { x: 0, y: -15 }, rotation: 0 }, // 头
-        { type: 'rect', color: '#00ffff', size: 12, position: { x: -12, y: -18 }, rotation: 0 }, // 左眼
-        { type: 'rect', color: '#00ffff', size: 12, position: { x: 12, y: -18 }, rotation: 0 }, // 右眼
-        { type: 'rect', color: '#ff0000', size: 18, position: { x: 0, y: -8 }, rotation: 0 }, // 嘴
-        { type: 'rect', color: '#808080', size: 55, position: { x: 0, y: 20 }, rotation: 0 }, // 身体
-        { type: 'rect', color: '#696969', size: 35, position: { x: -30, y: 22 }, rotation: 0 }, // 左臂
-        { type: 'rect', color: '#696969', size: 35, position: { x: 30, y: 22 }, rotation: 0 }, // 右臂
+        { type: 'rect', color: '#95a5a6', size: 55, position: { x: 0, y: -10 }, rotation: 0 },
+        { type: 'rect', color: '#34495e', size: 65, position: { x: 0, y: 25 }, rotation: 0 },
+        { type: 'circle', color: '#3498db', size: 12, position: { x: -14, y: -15 }, rotation: 0 },
+        { type: 'circle', color: '#3498db', size: 12, position: { x: 14, y: -15 }, rotation: 0 },
+        { type: 'rect', color: '#e74c3c', size: 25, position: { x: 0, y: -5 }, rotation: 0 },
+        { type: 'rect', color: '#7f8c8d', size: 20, position: { x: -35, y: 25 }, rotation: 0 },
+        { type: 'rect', color: '#7f8c8d', size: 20, position: { x: 35, y: 25 }, rotation: 0 },
+      ]
+    },
+    {
+      name: '彩虹塔',
+      description: '堆叠图形',
+      parts: [
+        { type: 'circle', color: '#e74c3c', size: 75, position: { x: 0, y: 20 }, rotation: 0 },
+        { type: 'rect', color: '#f39c12', size: 60, position: { x: 0, y: -5 }, rotation: 0 },
+        { type: 'triangle', color: '#3498db', size: 55, position: { x: 0, y: -35 }, rotation: 0 },
+        { type: 'circle', color: '#000000', size: 8, position: { x: -12, y: -10 }, rotation: 0 },
+        { type: 'circle', color: '#000000', size: 8, position: { x: 12, y: -10 }, rotation: 0 },
+      ]
+    },
+    {
+      name: '蝴蝶',
+      description: '对称图案',
+      parts: [
+        { type: 'ellipse', color: '#9b59b6', size: 60, position: { x: -25, y: -10 }, rotation: 0.5 },
+        { type: 'ellipse', color: '#9b59b6', size: 60, position: { x: 25, y: -10 }, rotation: -0.5 },
+        { type: 'ellipse', color: '#e67e22', size: 50, position: { x: -25, y: 15 }, rotation: -0.5 },
+        { type: 'ellipse', color: '#e67e22', size: 50, position: { x: 25, y: 15 }, rotation: 0.5 },
+        { type: 'circle', color: '#34495e', size: 30, position: { x: 0, y: 0 }, rotation: 0 },
+        { type: 'circle', color: '#ffffff', size: 8, position: { x: -8, y: -5 }, rotation: 0 },
+        { type: 'circle', color: '#ffffff', size: 8, position: { x: 8, y: -5 }, rotation: 0 },
       ]
     }
   ];
