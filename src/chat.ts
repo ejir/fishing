@@ -47,7 +47,16 @@ export class ChatSystem {
     if (isSystem) {
       messageDiv.textContent = message;
     } else {
-      messageDiv.innerHTML = `<span class="sender">${sender}:</span>${message}`;
+      const senderSpan = document.createElement('span');
+      senderSpan.className = 'sender';
+      senderSpan.textContent = `${sender}:`;
+      
+      const contentSpan = document.createElement('span');
+      contentSpan.className = 'content';
+      contentSpan.textContent = message;
+      
+      messageDiv.appendChild(senderSpan);
+      messageDiv.appendChild(contentSpan);
     }
 
     this.chatMessages.appendChild(messageDiv);
