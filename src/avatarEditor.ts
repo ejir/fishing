@@ -127,6 +127,58 @@ export class AvatarEditor {
         { type: 'circle', color: '#ffffff', size: 8, position: { x: -8, y: -5 }, rotation: 0 },
         { type: 'circle', color: '#ffffff', size: 8, position: { x: 8, y: -5 }, rotation: 0 },
       ]
+    },
+    {
+      name: '波奇酱',
+      description: '孤独摇滚',
+      parts: [
+        { type: 'rect', color: '#ffb3d9', size: 60, position: { x: 0, y: 0 }, rotation: 0 },
+        { type: 'rect', color: '#ff69b4', size: 40, position: { x: -15, y: -25 }, rotation: 0.2 },
+        { type: 'rect', color: '#ff69b4', size: 40, position: { x: 15, y: -25 }, rotation: -0.2 },
+        { type: 'rect', color: '#1a1a2e', size: 10, position: { x: -12, y: -5 }, rotation: 0 },
+        { type: 'rect', color: '#1a1a2e', size: 10, position: { x: 12, y: -5 }, rotation: 0 },
+        { type: 'rect', color: '#ff1493', size: 20, position: { x: 0, y: 10 }, rotation: 0 },
+        { type: 'rect', color: '#ffb3d9', size: 35, position: { x: 0, y: 35 }, rotation: 0 },
+      ]
+    },
+    {
+      name: '喜多',
+      description: '孤独摇滚',
+      parts: [
+        { type: 'rect', color: '#ffd700', size: 60, position: { x: 0, y: 0 }, rotation: 0 },
+        { type: 'rect', color: '#ff6347', size: 45, position: { x: -18, y: -28 }, rotation: 0.3 },
+        { type: 'rect', color: '#ff6347', size: 45, position: { x: 18, y: -28 }, rotation: -0.3 },
+        { type: 'rect', color: '#8b4513', size: 12, position: { x: -15, y: -8 }, rotation: 0 },
+        { type: 'rect', color: '#8b4513', size: 12, position: { x: 15, y: -8 }, rotation: 0 },
+        { type: 'rect', color: '#ff4500', size: 25, position: { x: 0, y: 8 }, rotation: 0 },
+        { type: 'rect', color: '#ffa500', size: 40, position: { x: 0, y: 38 }, rotation: 0 },
+      ]
+    },
+    {
+      name: '凉',
+      description: '孤独摇滚',
+      parts: [
+        { type: 'rect', color: '#87ceeb', size: 60, position: { x: 0, y: 0 }, rotation: 0 },
+        { type: 'rect', color: '#4169e1', size: 35, position: { x: -20, y: -30 }, rotation: 0.1 },
+        { type: 'rect', color: '#4169e1', size: 35, position: { x: 20, y: -30 }, rotation: -0.1 },
+        { type: 'rect', color: '#000080', size: 10, position: { x: -12, y: -6 }, rotation: 0 },
+        { type: 'rect', color: '#000080', size: 10, position: { x: 12, y: -6 }, rotation: 0 },
+        { type: 'rect', color: '#1e90ff', size: 18, position: { x: 0, y: 8 }, rotation: 0 },
+        { type: 'rect', color: '#5f9ea0', size: 38, position: { x: 0, y: 36 }, rotation: 0 },
+      ]
+    },
+    {
+      name: '虹夏',
+      description: '孤独摇滚',
+      parts: [
+        { type: 'rect', color: '#fff8dc', size: 60, position: { x: 0, y: 0 }, rotation: 0 },
+        { type: 'rect', color: '#ffd700', size: 38, position: { x: -16, y: -26 }, rotation: 0.15 },
+        { type: 'rect', color: '#ffd700', size: 38, position: { x: 16, y: -26 }, rotation: -0.15 },
+        { type: 'rect', color: '#2f4f4f', size: 11, position: { x: -13, y: -7 }, rotation: 0 },
+        { type: 'rect', color: '#2f4f4f', size: 11, position: { x: 13, y: -7 }, rotation: 0 },
+        { type: 'rect', color: '#ff6b6b', size: 22, position: { x: 0, y: 9 }, rotation: 0 },
+        { type: 'rect', color: '#ffeb3b', size: 36, position: { x: 0, y: 37 }, rotation: 0 },
+      ]
     }
   ];
   
