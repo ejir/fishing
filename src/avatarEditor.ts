@@ -6,6 +6,9 @@ interface DragState {
   offsetX: number;
   offsetY: number;
   mode: 'move' | 'rotate' | 'scale' | null;
+  handleType?: 'tl' | 'tr' | 'bl' | 'br' | 'rotate' | null;
+  initialSize?: number;
+  initialAngle?: number;
 }
 
 export class AvatarEditor {
@@ -17,18 +20,22 @@ export class AvatarEditor {
     dragIndex: -1,
     offsetX: 0,
     offsetY: 0,
-    mode: null
+    mode: null,
+    handleType: null
   };
   private selectedPartIndex: number = -1;
-  private previewCenter: Position2D = { x: 250, y: 200 };
+  private previewCenter: Position2D = { x: 400, y: 300 };
+  private handleSize: number = 8;
   
   constructor() {
     this.canvas = document.createElement('canvas');
-    this.canvas.width = 500;
-    this.canvas.height = 400;
+    this.canvas.width = 800;
+    this.canvas.height = 600;
     this.canvas.style.border = '2px solid #667eea';
     this.canvas.style.borderRadius = '8px';
     this.canvas.style.cursor = 'crosshair';
+    this.canvas.style.maxWidth = '100%';
+    this.canvas.style.height = 'auto';
     
     const ctx = this.canvas.getContext('2d');
     if (!ctx) throw new Error('无法获取Canvas上下文');
@@ -106,6 +113,21 @@ export class AvatarEditor {
   private handleMouseDown(e: MouseEvent): void {
     const mousePos = this.getMousePos(e);
     
+    // 首先检查是否点击了控制手柄（如果有选中的图元）
+    if (this.selectedPartIndex >= 0) {
+      const handleType = this.getHandleAtPosition(mousePos, this.parts[this.selectedPartIndex]);
+      if (handleType) {
+        this.dragState.isDragging = true;
+        this.dragState.dragIndex = this.selectedPartIndex;
+        this.dragState.mode = handleType === 'rotate' ? 'rotate' : 'scale';
+        this.dragState.handleType = handleType;
+        this.dragState.initialSize = this.parts[this.selectedPartIndex].size;
+        this.dragState.initialAngle = this.parts[this.selectedPartIndex].rotation;
+        this.canvas.style.cursor = 'grabbing';
+        return;
+      }
+    }
+    
     // 检查是否点击了某个部件
     for (let i = this.parts.length - 1; i >= 0; i--) {
       const part = this.parts[i];
@@ -113,12 +135,13 @@ export class AvatarEditor {
       const dy = mousePos.y - part.position.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
       
-      if (distance < part.size) {
+      if (distance < part.size / 2 + 10) {
         this.dragState.isDragging = true;
         this.dragState.dragIndex = i;
         this.dragState.offsetX = dx;
         this.dragState.offsetY = dy;
-        this.dragState.mode = e.shiftKey ? 'scale' : e.ctrlKey ? 'rotate' : 'move';
+        this.dragState.mode = 'move';
+        this.dragState.handleType = null;
         this.selectedPartIndex = i;
         this.canvas.style.cursor = 'grabbing';
         return;
@@ -133,20 +156,33 @@ export class AvatarEditor {
       // 检查鼠标悬停
       const mousePos = this.getMousePos(e);
       let hovering = false;
+      let cursor = 'crosshair';
       
-      for (let i = this.parts.length - 1; i >= 0; i--) {
-        const part = this.parts[i];
-        const dx = mousePos.x - part.position.x;
-        const dy = mousePos.y - part.position.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < part.size) {
+      // 检查是否悬停在控制手柄上
+      if (this.selectedPartIndex >= 0) {
+        const handleType = this.getHandleAtPosition(mousePos, this.parts[this.selectedPartIndex]);
+        if (handleType) {
+          cursor = handleType === 'rotate' ? 'grab' : 'nwse-resize';
           hovering = true;
-          break;
         }
       }
       
-      this.canvas.style.cursor = hovering ? 'grab' : 'crosshair';
+      // 检查是否悬停在图元上
+      if (!hovering) {
+        for (let i = this.parts.length - 1; i >= 0; i--) {
+          const part = this.parts[i];
+          const dx = mousePos.x - part.position.x;
+          const dy = mousePos.y - part.position.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < part.size / 2 + 10) {
+            cursor = 'grab';
+            break;
+          }
+        }
+      }
+      
+      this.canvas.style.cursor = cursor;
       return;
     }
 
@@ -159,7 +195,7 @@ export class AvatarEditor {
       part.position.y = mousePos.y - this.dragState.offsetY;
       
       // 限制在画布范围内
-      const maxDist = 150;
+      const maxDist = 250;
       const dist = Math.sqrt(part.position.x * part.position.x + part.position.y * part.position.y);
       if (dist > maxDist) {
         const angle = Math.atan2(part.position.y, part.position.x);
@@ -170,13 +206,12 @@ export class AvatarEditor {
       // 旋转模式
       const angle = Math.atan2(mousePos.y - part.position.y, mousePos.x - part.position.x);
       part.rotation = angle;
-    } else if (this.dragState.mode === 'scale') {
-      // 缩放模式
-      const distance = Math.sqrt(
-        (mousePos.x - part.position.x) ** 2 + 
-        (mousePos.y - part.position.y) ** 2
-      );
-      part.size = Math.max(10, Math.min(80, distance));
+    } else if (this.dragState.mode === 'scale' && this.dragState.handleType) {
+      // 通过控制手柄缩放
+      const dx = mousePos.x - part.position.x;
+      const dy = mousePos.y - part.position.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      part.size = Math.max(10, Math.min(150, distance * 2));
     }
 
     this.updatePartsList();
@@ -186,7 +221,41 @@ export class AvatarEditor {
     this.dragState.isDragging = false;
     this.dragState.dragIndex = -1;
     this.dragState.mode = null;
+    this.dragState.handleType = null;
     this.canvas.style.cursor = 'crosshair';
+  }
+
+  private getHandleAtPosition(mousePos: Position2D, part: AvatarPart): 'tl' | 'tr' | 'bl' | 'br' | 'rotate' | null {
+    const handles = this.getHandlePositions(part);
+    const threshold = this.handleSize + 5;
+    
+    for (const [type, pos] of Object.entries(handles)) {
+      const dx = mousePos.x - pos.x;
+      const dy = mousePos.y - pos.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      
+      if (distance < threshold) {
+        return type as 'tl' | 'tr' | 'bl' | 'br' | 'rotate';
+      }
+    }
+    
+    return null;
+  }
+
+  private getHandlePositions(part: AvatarPart): Record<string, Position2D> {
+    const halfSize = part.size / 2;
+    const rotateHandleDistance = halfSize + 30;
+    
+    return {
+      tl: { x: part.position.x - halfSize, y: part.position.y - halfSize },
+      tr: { x: part.position.x + halfSize, y: part.position.y - halfSize },
+      bl: { x: part.position.x - halfSize, y: part.position.y + halfSize },
+      br: { x: part.position.x + halfSize, y: part.position.y + halfSize },
+      rotate: { 
+        x: part.position.x, 
+        y: part.position.y - rotateHandleDistance 
+      }
+    };
   }
 
   private updatePartsList(): void {
@@ -281,6 +350,99 @@ export class AvatarEditor {
     }
 
     this.ctx.restore();
+    
+    // 绘制控制手柄
+    if (isSelected) {
+      this.drawHandles(part);
+    }
+  }
+
+  private drawHandles(part: AvatarPart): void {
+    const handles = this.getHandlePositions(part);
+    const halfSize = part.size / 2;
+    
+    this.ctx.save();
+    
+    // 绘制边界框
+    this.ctx.strokeStyle = '#667eea';
+    this.ctx.lineWidth = 2;
+    this.ctx.setLineDash([5, 5]);
+    this.ctx.strokeRect(
+      this.previewCenter.x + part.position.x - halfSize,
+      this.previewCenter.y + part.position.y - halfSize,
+      part.size,
+      part.size
+    );
+    this.ctx.setLineDash([]);
+    
+    // 绘制角点控制手柄（缩放）
+    this.ctx.fillStyle = '#ffffff';
+    this.ctx.strokeStyle = '#667eea';
+    this.ctx.lineWidth = 2;
+    
+    for (const [type, pos] of Object.entries(handles)) {
+      if (type !== 'rotate') {
+        this.ctx.beginPath();
+        this.ctx.arc(
+          this.previewCenter.x + pos.x,
+          this.previewCenter.y + pos.y,
+          this.handleSize,
+          0,
+          Math.PI * 2
+        );
+        this.ctx.fill();
+        this.ctx.stroke();
+      }
+    }
+    
+    // 绘制旋转手柄
+    const rotateHandle = handles.rotate;
+    
+    // 绘制连接线
+    this.ctx.strokeStyle = '#667eea';
+    this.ctx.lineWidth = 2;
+    this.ctx.setLineDash([3, 3]);
+    this.ctx.beginPath();
+    this.ctx.moveTo(
+      this.previewCenter.x + part.position.x,
+      this.previewCenter.y + part.position.y - halfSize
+    );
+    this.ctx.lineTo(
+      this.previewCenter.x + rotateHandle.x,
+      this.previewCenter.y + rotateHandle.y
+    );
+    this.ctx.stroke();
+    this.ctx.setLineDash([]);
+    
+    // 绘制旋转手柄圆圈
+    this.ctx.fillStyle = '#4ade80';
+    this.ctx.strokeStyle = '#16a34a';
+    this.ctx.lineWidth = 2;
+    this.ctx.beginPath();
+    this.ctx.arc(
+      this.previewCenter.x + rotateHandle.x,
+      this.previewCenter.y + rotateHandle.y,
+      this.handleSize,
+      0,
+      Math.PI * 2
+    );
+    this.ctx.fill();
+    this.ctx.stroke();
+    
+    // 在旋转手柄上绘制旋转图标
+    this.ctx.strokeStyle = '#ffffff';
+    this.ctx.lineWidth = 2;
+    this.ctx.beginPath();
+    this.ctx.arc(
+      this.previewCenter.x + rotateHandle.x,
+      this.previewCenter.y + rotateHandle.y,
+      this.handleSize / 2,
+      0.2,
+      Math.PI * 1.8
+    );
+    this.ctx.stroke();
+    
+    this.ctx.restore();
   }
 
   private render(): void {
@@ -303,7 +465,7 @@ export class AvatarEditor {
     this.ctx.lineWidth = 2;
     this.ctx.setLineDash([5, 5]);
     this.ctx.beginPath();
-    this.ctx.arc(this.previewCenter.x, this.previewCenter.y, 150, 0, Math.PI * 2);
+    this.ctx.arc(this.previewCenter.x, this.previewCenter.y, 250, 0, Math.PI * 2);
     this.ctx.stroke();
     this.ctx.setLineDash([]);
 
@@ -314,9 +476,9 @@ export class AvatarEditor {
 
     // 绘制说明文字
     this.ctx.fillStyle = '#666';
-    this.ctx.font = '12px Arial';
+    this.ctx.font = '14px Arial';
     this.ctx.textAlign = 'center';
-    this.ctx.fillText('拖拽图元来移动 | Shift+拖拽缩放 | Ctrl+拖拽旋转', this.canvas.width / 2, this.canvas.height - 10);
+    this.ctx.fillText('拖拽图元移动 | 拖拽控制点缩放/旋转 | Delete删除', this.canvas.width / 2, this.canvas.height - 15);
   }
 
   private animate = (): void => {
