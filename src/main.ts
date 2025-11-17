@@ -94,8 +94,18 @@ class Game {
       console.log('已连接到服务器');
       if (this.socket) {
         new ChatSystem(this.socket);
+        
+        // Get username from input or generate default
+        const playerNameInput = document.getElementById('playerName') as HTMLInputElement;
+        let playerName = playerNameInput?.value.trim() || '';
+        if (playerName.length === 0) {
+          playerName = `玩家${Math.floor(Math.random() * 9999)}`;
+        }
+        // Ensure max 30 characters
+        playerName = playerName.substring(0, 30);
+        
         this.socket.emit('joinGame', {
-          name: `玩家${Math.floor(Math.random() * 9999)}`,
+          name: playerName,
           avatar: avatarData
         });
       }

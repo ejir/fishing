@@ -48,7 +48,8 @@ function checkOverlaps() {
       const dy = player1.position.y - player2.position.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
       
-      const overlapThreshold = (player1.size + player2.size) * 40;
+      // Increased threshold to detect overlaps more reliably
+      const overlapThreshold = (player1.size + player2.size) * 60;
       
       if (distance < overlapThreshold) {
         player1.overlapping++;

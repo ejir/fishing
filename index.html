@@ -303,10 +303,11 @@
 
     .hud-top {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: flex-start;
       gap: 20px;
       flex-wrap: wrap;
+      margin-right: 280px; /* Space for controls-help */
     }
 
     .stats-panel {
@@ -394,6 +395,7 @@
       width: 400px;
       max-width: calc(100vw - 40px);
       pointer-events: auto;
+      z-index: 100;
     }
 
     #chatMessages {
@@ -470,7 +472,7 @@
     /* 控制说明 */
     .controls-help {
       position: absolute;
-      bottom: 20px;
+      top: 20px;
       right: 20px;
       background: rgba(0, 0, 0, 0.8);
       padding: 20px;
@@ -480,6 +482,7 @@
       pointer-events: auto;
       backdrop-filter: blur(10px);
       border: 2px solid rgba(255, 255, 255, 0.1);
+      max-width: 250px;
     }
 
     .controls-help h4 {
@@ -511,6 +514,34 @@
     ::-webkit-scrollbar-thumb:hover {
       background: rgba(255, 255, 255, 0.5);
     }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .hud-top {
+        flex-direction: column;
+        margin-right: 0;
+      }
+
+      .controls-help {
+        position: relative;
+        max-width: 100%;
+        margin: 10px 20px;
+      }
+
+      #chatContainer {
+        width: calc(100vw - 40px);
+        max-width: 100%;
+      }
+
+      #leaderboard {
+        min-width: auto;
+        width: 100%;
+      }
+
+      .stats-panel {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -539,6 +570,10 @@
     <div id="previewCanvas"></div>
 
     <div class="controls">
+      <div class="control-group">
+        <label>用户名 (最多30字符)</label>
+        <input type="text" id="playerName" maxlength="30" placeholder="输入你的用户名" value="">
+      </div>
       <div class="control-group">
         <label>颜色</label>
         <input type="color" id="partColor" class="color-input" value="#ff6b6b">
