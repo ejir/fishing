@@ -11,6 +11,12 @@ interface DragState {
   initialAngle?: number;
 }
 
+interface PresetAvatar {
+  name: string;
+  description: string;
+  parts: AvatarPart[];
+}
+
 export class AvatarEditor {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
@@ -27,6 +33,92 @@ export class AvatarEditor {
   private previewCenter: Position2D = { x: 400, y: 300 };
   private handleSize: number = 8;
   
+  private presets: PresetAvatar[] = [
+    {
+      name: '波奇酱',
+      description: '孤独摇滚 - 后藤一里',
+      parts: [
+        { type: 'circle', color: '#ffc0cb', size: 60, position: { x: 0, y: -20 }, rotation: 0 }, // 头
+        { type: 'rect', color: '#ff69b4', size: 40, position: { x: -15, y: -30 }, rotation: 0.3 }, // 左发
+        { type: 'rect', color: '#ff69b4', size: 40, position: { x: 15, y: -30 }, rotation: -0.3 }, // 右发
+        { type: 'circle', color: '#000000', size: 8, position: { x: -12, y: -22 }, rotation: 0 }, // 左眼
+        { type: 'circle', color: '#000000', size: 8, position: { x: 12, y: -22 }, rotation: 0 }, // 右眼
+        { type: 'ellipse', color: '#ff0000', size: 16, position: { x: 0, y: -12 }, rotation: 0 }, // 嘴
+        { type: 'rect', color: '#ffb6c1', size: 45, position: { x: 0, y: 15 }, rotation: 0 }, // 身体
+        { type: 'rect', color: '#ffb6c1', size: 30, position: { x: -20, y: 20 }, rotation: 0.2 }, // 左臂
+        { type: 'rect', color: '#ffb6c1', size: 30, position: { x: 20, y: 20 }, rotation: -0.2 }, // 右臂
+      ]
+    },
+    {
+      name: '虹夏',
+      description: '孤独摇滚 - 伊地知虹夏',
+      parts: [
+        { type: 'circle', color: '#ffe4b5', size: 60, position: { x: 0, y: -20 }, rotation: 0 }, // 头
+        { type: 'rect', color: '#ff0000', size: 45, position: { x: -18, y: -25 }, rotation: 0.2 }, // 左发
+        { type: 'rect', color: '#ff0000', size: 45, position: { x: 18, y: -25 }, rotation: -0.2 }, // 右发
+        { type: 'circle', color: '#8b4513', size: 10, position: { x: -12, y: -22 }, rotation: 0 }, // 左眼
+        { type: 'circle', color: '#8b4513', size: 10, position: { x: 12, y: -22 }, rotation: 0 }, // 右眼
+        { type: 'ellipse', color: '#ff6347', size: 18, position: { x: 0, y: -10 }, rotation: 0 }, // 嘴
+        { type: 'rect', color: '#ffd700', size: 45, position: { x: 0, y: 15 }, rotation: 0 }, // 身体
+        { type: 'rect', color: '#f0e68c', size: 30, position: { x: -22, y: 18 }, rotation: 0.3 }, // 左臂
+        { type: 'rect', color: '#f0e68c', size: 30, position: { x: 22, y: 18 }, rotation: -0.3 }, // 右臂
+      ]
+    },
+    {
+      name: '凉',
+      description: '孤独摇滚 - 山田凉',
+      parts: [
+        { type: 'circle', color: '#ffe4c4', size: 60, position: { x: 0, y: -20 }, rotation: 0 }, // 头
+        { type: 'rect', color: '#4169e1', size: 50, position: { x: -20, y: -28 }, rotation: 0.1 }, // 左发
+        { type: 'rect', color: '#4169e1', size: 50, position: { x: 20, y: -28 }, rotation: -0.1 }, // 右发
+        { type: 'circle', color: '#000080', size: 9, position: { x: -12, y: -20 }, rotation: 0 }, // 左眼
+        { type: 'circle', color: '#000080', size: 9, position: { x: 12, y: -20 }, rotation: 0 }, // 右眼
+        { type: 'ellipse', color: '#dc143c', size: 16, position: { x: 0, y: -12 }, rotation: 0 }, // 嘴
+        { type: 'rect', color: '#000000', size: 45, position: { x: 0, y: 15 }, rotation: 0 }, // 身体
+        { type: 'rect', color: '#2f4f4f', size: 28, position: { x: -22, y: 20 }, rotation: 0.25 }, // 左臂
+        { type: 'rect', color: '#2f4f4f', size: 28, position: { x: 22, y: 20 }, rotation: -0.25 }, // 右臂
+      ]
+    },
+    {
+      name: '喜多',
+      description: '孤独摇滚 - 喜多郁代',
+      parts: [
+        { type: 'circle', color: '#fff5ee', size: 60, position: { x: 0, y: -20 }, rotation: 0 }, // 头
+        { type: 'ellipse', color: '#ff1493', size: 50, position: { x: -20, y: -30 }, rotation: 0.4 }, // 左发
+        { type: 'ellipse', color: '#ff1493', size: 50, position: { x: 20, y: -30 }, rotation: -0.4 }, // 右发
+        { type: 'circle', color: '#ff69b4', size: 10, position: { x: -12, y: -22 }, rotation: 0 }, // 左眼
+        { type: 'circle', color: '#ff69b4', size: 10, position: { x: 12, y: -22 }, rotation: 0 }, // 右眼
+        { type: 'ellipse', color: '#ff1493', size: 18, position: { x: 0, y: -10 }, rotation: 0 }, // 嘴
+        { type: 'rect', color: '#ffb6e1', size: 45, position: { x: 0, y: 15 }, rotation: 0 }, // 身体
+        { type: 'rect', color: '#ffc0e0', size: 30, position: { x: -22, y: 18 }, rotation: 0.2 }, // 左臂
+        { type: 'rect', color: '#ffc0e0', size: 30, position: { x: 22, y: 18 }, rotation: -0.2 }, // 右臂
+      ]
+    },
+    {
+      name: '经典笑脸',
+      description: '简单的笑脸角色',
+      parts: [
+        { type: 'circle', color: '#ffff00', size: 80, position: { x: 0, y: 0 }, rotation: 0 }, // 脸
+        { type: 'circle', color: '#000000', size: 12, position: { x: -18, y: -10 }, rotation: 0 }, // 左眼
+        { type: 'circle', color: '#000000', size: 12, position: { x: 18, y: -10 }, rotation: 0 }, // 右眼
+        { type: 'ellipse', color: '#ff0000', size: 30, position: { x: 0, y: 10 }, rotation: 0 }, // 笑嘴
+      ]
+    },
+    {
+      name: '机器人',
+      description: '方块机器人',
+      parts: [
+        { type: 'rect', color: '#c0c0c0', size: 50, position: { x: 0, y: -15 }, rotation: 0 }, // 头
+        { type: 'rect', color: '#00ffff', size: 12, position: { x: -12, y: -18 }, rotation: 0 }, // 左眼
+        { type: 'rect', color: '#00ffff', size: 12, position: { x: 12, y: -18 }, rotation: 0 }, // 右眼
+        { type: 'rect', color: '#ff0000', size: 18, position: { x: 0, y: -8 }, rotation: 0 }, // 嘴
+        { type: 'rect', color: '#808080', size: 55, position: { x: 0, y: 20 }, rotation: 0 }, // 身体
+        { type: 'rect', color: '#696969', size: 35, position: { x: -30, y: 22 }, rotation: 0 }, // 左臂
+        { type: 'rect', color: '#696969', size: 35, position: { x: 30, y: 22 }, rotation: 0 }, // 右臂
+      ]
+    }
+  ];
+  
   constructor() {
     this.canvas = document.createElement('canvas');
     this.canvas.width = 800;
@@ -42,6 +134,7 @@ export class AvatarEditor {
     this.ctx = ctx;
     
     this.setupCanvas();
+    this.setupPresets();
     this.setupEventListeners();
     this.animate();
   }
@@ -53,40 +146,169 @@ export class AvatarEditor {
       container.appendChild(this.canvas);
     }
   }
+
+  private setupPresets(): void {
+    const presetsGrid = document.getElementById('presetsGrid');
+    if (!presetsGrid) return;
+
+    this.presets.forEach((preset, index) => {
+      const card = document.createElement('div');
+      card.className = 'preset-card';
+      card.dataset.presetIndex = index.toString();
+
+      const preview = document.createElement('canvas');
+      preview.className = 'preset-preview';
+      preview.width = 120;
+      preview.height = 80;
+      
+      const previewCtx = preview.getContext('2d');
+      if (previewCtx) {
+        this.renderPresetPreview(previewCtx, preset.parts, 60, 40);
+      }
+
+      const name = document.createElement('div');
+      name.className = 'preset-name';
+      name.textContent = preset.name;
+
+      card.appendChild(preview);
+      card.appendChild(name);
+      card.addEventListener('click', () => this.loadPreset(index));
+
+      presetsGrid.appendChild(card);
+    });
+  }
+
+  private renderPresetPreview(ctx: CanvasRenderingContext2D, parts: AvatarPart[], centerX: number, centerY: number): void {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.fillStyle = '#fafafa';
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    const scale = 0.5; // 缩小预览
+
+    parts.forEach(part => {
+      ctx.save();
+      ctx.translate(
+        centerX + part.position.x * scale,
+        centerY + part.position.y * scale
+      );
+      ctx.rotate(part.rotation);
+
+      ctx.fillStyle = part.color;
+      ctx.strokeStyle = '#333';
+      ctx.lineWidth = 1;
+
+      const scaledSize = part.size * scale;
+
+      switch (part.type) {
+        case 'circle':
+          ctx.beginPath();
+          ctx.arc(0, 0, scaledSize / 2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          break;
+        case 'rect':
+          ctx.fillRect(-scaledSize / 2, -scaledSize / 2, scaledSize, scaledSize);
+          ctx.strokeRect(-scaledSize / 2, -scaledSize / 2, scaledSize, scaledSize);
+          break;
+        case 'triangle':
+          ctx.beginPath();
+          ctx.moveTo(0, -scaledSize / 2);
+          ctx.lineTo(scaledSize / 2, scaledSize / 2);
+          ctx.lineTo(-scaledSize / 2, scaledSize / 2);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          break;
+        case 'ellipse':
+          ctx.beginPath();
+          ctx.ellipse(0, 0, scaledSize / 2, scaledSize / 3, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          break;
+      }
+
+      ctx.restore();
+    });
+  }
+
+  private loadPreset(index: number): void {
+    const preset = this.presets[index];
+    if (!preset) return;
+
+    // 深拷贝预设的parts
+    this.parts = preset.parts.map(part => ({ ...part, position: { ...part.position } }));
+    this.selectedPartIndex = -1;
+    this.updatePartsList();
+
+    // 高亮选中的预设卡片
+    document.querySelectorAll('.preset-card').forEach((card, i) => {
+      if (i === index) {
+        card.classList.add('selected');
+      } else {
+        card.classList.remove('selected');
+      }
+    });
+  }
   
   private setupEventListeners(): void {
-    // 图元按钮
+    // 图元按钮 - 支持拖拽
     const primitiveButtons = document.querySelectorAll('.primitive-btn[data-type]');
-    let selectedType: AvatarPart['type'] = 'circle';
 
     primitiveButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        primitiveButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        selectedType = (btn as HTMLElement).dataset.type as AvatarPart['type'];
+      const element = btn as HTMLElement;
+      
+      element.addEventListener('dragstart', (e: DragEvent) => {
+        const type = element.dataset.type;
+        if (e.dataTransfer && type) {
+          e.dataTransfer.setData('primitiveType', type);
+          e.dataTransfer.effectAllowed = 'copy';
+        }
       });
     });
 
-    if (primitiveButtons[0]) {
-      primitiveButtons[0].classList.add('active');
-    }
+    // Canvas接收拖拽
+    this.canvas.addEventListener('dragover', (e: DragEvent) => {
+      e.preventDefault();
+      if (e.dataTransfer) {
+        e.dataTransfer.dropEffect = 'copy';
+      }
+    });
 
-    // 添加图元按钮
-    const addButton = document.getElementById('addPart');
-    if (addButton) {
-      addButton.addEventListener('click', () => {
+    this.canvas.addEventListener('drop', (e: DragEvent) => {
+      e.preventDefault();
+      const primitiveType = e.dataTransfer?.getData('primitiveType');
+      
+      if (primitiveType) {
+        const rect = this.canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left - this.previewCenter.x;
+        const y = e.clientY - rect.top - this.previewCenter.y;
+        
         const part: AvatarPart = {
-          type: selectedType,
+          type: primitiveType as AvatarPart['type'],
           color: (document.getElementById('partColor') as HTMLInputElement)?.value || '#ff6b6b',
           size: parseFloat((document.getElementById('partSize') as HTMLInputElement)?.value || '30'),
-          position: { x: 0, y: 0 },
+          position: { x, y },
           rotation: parseFloat((document.getElementById('partRotation') as HTMLInputElement)?.value || '0') * (Math.PI / 180)
         };
 
+        // 限制在范围内
+        const maxDist = 250;
+        const dist = Math.sqrt(part.position.x * part.position.x + part.position.y * part.position.y);
+        if (dist > maxDist) {
+          const angle = Math.atan2(part.position.y, part.position.x);
+          part.position.x = Math.cos(angle) * maxDist;
+          part.position.y = Math.sin(angle) * maxDist;
+        }
+
         this.parts.push(part);
         this.updatePartsList();
-      });
-    }
+        
+        // 取消预设选中状态
+        document.querySelectorAll('.preset-card').forEach(card => {
+          card.classList.remove('selected');
+        });
+      }
+    });
 
     // 鼠标事件 - 拖拽功能
     this.canvas.addEventListener('mousedown', (e) => this.handleMouseDown(e));
