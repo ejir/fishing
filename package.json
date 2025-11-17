@@ -1,7 +1,7 @@
 {
   "name": "multiplayer-primitive-avatars-game",
   "version": "1.0.0",
-  "description": "多人联机图元捏人游戏 - 节操排行榜",
+  "description": "多人联机图元捏人游戏 - 节操排行榜 (2D版本)",
   "type": "module",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
@@ -13,11 +13,12 @@
   "dependencies": {
     "express": "^4.18.2",
     "socket.io": "^4.6.1",
-    "socket.io-client": "^4.6.1",
-    "three": "^0.159.0"
+    "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
+    "@types/node": "^20.10.5",
     "concurrently": "^8.2.2",
+    "typescript": "^5.3.3",
     "vite": "^5.0.8"
   }
 }
