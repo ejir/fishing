@@ -46,10 +46,9 @@ function checkOverlaps() {
       
       const dx = player1.position.x - player2.position.x;
       const dy = player1.position.y - player2.position.y;
-      const dz = player1.position.z - player2.position.z;
-      const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+      const distance = Math.sqrt(dx * dx + dy * dy);
       
-      const overlapThreshold = (player1.size + player2.size) * 0.8;
+      const overlapThreshold = (player1.size + player2.size) * 40;
       
       if (distance < overlapThreshold) {
         player1.overlapping++;
@@ -83,7 +82,7 @@ io.on('connection', (socket) => {
       id: socket.id,
       name: data.name || `玩家${socket.id.slice(0, 4)}`,
       avatar: data.avatar,
-      position: { x: 0, y: 1, z: 0 },
+      position: { x: 0, y: 0 },
       rotation: 0,
       jiecao: 0,
       size: 1,
